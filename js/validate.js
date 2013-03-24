@@ -1,10 +1,4 @@
-/*
-
-Basic jQuery script that hooks onto the save button, checks if a page parent exists and returns an error if it doesn't.
-
-*/
-
-
+// Check if page parent is set on edit screen. Return error message.
 
 jQuery('#publish').click( function(event) {
 	

@@ -62,7 +62,9 @@ class RestrictPageParents {
 	public function rpp_scripts( $hook_suffix ) {
        				
 		if ($hook_suffix = 'post.php' && $this->get_permissions('force_parent'))
-			wp_enqueue_script( 'rpp_validate', plugin_dir_url( __FILE__ ) . 'validate.js', array( 'jquery' ), '1.0', true );			
+			wp_enqueue_script( 'rpp_validate', plugin_dir_url( __FILE__ ) . 'js/validate.js', array( 'jquery' ), '1.0', true );
+
+		wp_enqueue_script( 'rpp_modify', plugin_dir_url( __FILE__ ) . 'js/modify.js.php', array( 'jquery' ), '1.0', true );			
 		        
 	}
 	
