@@ -25,7 +25,8 @@
     						<thead>
     							<tr>
     								<th class="row-title" width="40%">Role Name</th>
-    								<th>Permissions</th>
+    								<th>Page Parent Restrictions</th>
+                                    <th>Force Page Parent</th>
     							</tr>
     						</thead>
     						<tbody>
@@ -47,24 +48,33 @@
 	    								<td>
 	    								
 	    									<fieldset>
-	    										
-	    										<label for="rpp_options[enable_restrictions-<?php echo strtolower($role['name']); ?>]">
-	    										    
-	    										    <input name="rpp_options[enable_restrictions-<?php echo strtolower($role['name']); ?>]" id="rpp_options[enable_restrictions-<?php echo strtolower($role['name']); ?>]" type="checkbox" value="1" <?php if (isset($options['enable_restrictions-' . strtolower($role['name'])])) { checked('1', $options['enable_restrictions-' . strtolower($role['name'])]); } ?> />
-	    										    Enable Restrictions
-	    										    
-	    										</label><br />
-	    										
-	    										<label for="rpp_options[force_parent-<?php echo strtolower($role['name']); ?>]">
-	    										    
-	    										    <input name="rpp_options[force_parent-<?php echo strtolower($role['name']); ?>]" id="rpp_options[force_parent-<?php echo strtolower($role['name']); ?>]" type="checkbox" value="1" <?php if (isset($options['force_parent-' . strtolower($role['name'])])) { checked('1', $options['force_parent-'. strtolower($role['name'])]); } ?> />
-	    										    Disable 'No Parent'
-	    										    
-	    										</label>
+
+                                                <select name="rpp_options[enable_restrictions-<?php echo strtolower($role['name']); ?>]" id="rpp_options[enable_restrictions-<?php echo strtolower($role['name']); ?>]">
+
+                                                    <option value="0" <?php selected('0', $options['enable_restrictions-' . strtolower($role['name'])]); ?>>Disable</option>
+                                                    <option value="1" <?php selected('1', $options['enable_restrictions-' . strtolower($role['name'])]); ?>>Enable</option>
+
+                                                </select>
 	    										
 	    									</fieldset>
 	    									
 	    								</td>
+
+                                        <td>
+                                        
+                                            <fieldset>
+
+                                                <select name="rpp_options[force_parent-<?php echo strtolower($role['name']); ?>]" id="rpp_options[force_parent-<?php echo strtolower($role['name']); ?>]">
+
+                                                    <option value="0" <?php selected('0', $options['force_parent-' . strtolower($role['name'])]); ?>>Disable</option>
+                                                    <option value="1" <?php selected('1', $options['force_parent-' . strtolower($role['name'])]); ?>>Enable</option>
+
+                                                </select>
+                                                
+                                            </fieldset>
+                                            
+                                        </td>
+
 	    							</tr>
     							
     							<?php $i++; endif; endforeach; ?>
@@ -79,8 +89,10 @@
     					<table class="widefat">
     						<thead>
     							<tr>
-    								<th class="row-title" width="40%">Role Name</th>
-    								<th>Permissions</th>
+    								<th>Override?</th>
+                                    <th class="row-title" width="25%">Role Name</th>
+    								<th>Page Parent Restrictions</th>
+                                    <th>Force Page Parent</th>
     							</tr>
     						</thead>
     						<tbody>
@@ -96,28 +108,42 @@
 								?>
     						
 	    							<tr <?php if ($i%2) echo 'class="alt"'; ?>>
-	    								<td class="row-title"><?php echo $user->user_login ?></td>
+	    								<td>
+                                            <input name="rpp_options[override-<?php echo $user->user_login; ?>]"
+                                                type="checkbox"
+                                                value="1"
+                                                <?php if (isset($options['override-' . $user->user_login])) { checked('1', $options['override-' . $user->user_login]); } ?>
+                                            />
+                                        </td>
+                                        <td class="row-title"><?php echo $user->user_login ?></td>
 	    								<td>
 	    								
 	    									<fieldset>
-	    										
-	    										<label for="rpp_options[enable_restrictions-<?php echo $user->user_login; ?>]">
-	    										    
-	    										    <input name="rpp_options[enable_restrictions-<?php echo $user->user_login; ?>]" id="rpp_options[enable_restrictions-<?php echo $user->user_login; ?>]" type="checkbox" value="1" <?php if (isset($options['enable_restrictions-' . $user->user_login])) { checked('1', $options['enable_restrictions-' . $user->user_login]); } ?> />
-	    										    Enable Restrictions
-	    										    
-	    										</label><br />
-	    										
-	    										<label for="rpp_options[force_parent-<?php echo $user->user_login; ?>]">
-	    										    
-	    										    <input name="rpp_options[force_parent-<?php echo $user->user_login; ?>]" id="rpp_options[force_parent-<?php echo $user->user_login; ?>]" type="checkbox" value="1" <?php if (isset($options['force_parent-' . $user->user_login])) { checked('1', $options['force_parent-'. $user->user_login]); } ?> />
-	    										    Disable 'No Parent'
-	    										    
-	    										</label>
+
+                                                <select name="rpp_options[enable_restrictions-<?php echo $user->user_login; ?>]" id="rpp_options[enable_restrictions-<?php echo $user->user_login; ?>]">
+
+                                                    <option value="0" <?php selected('0', $options['enable_restrictions-' . $user->user_login]); ?>>Disable</option>
+                                                    <option value="1" <?php selected('1', $options['enable_restrictions-' . $user->user_login]); ?>>Enable</option>
+
+                                                </select>
 	    										
 	    									</fieldset>
 	    									
 	    								</td>
+                                        <td>
+                                        
+                                            <fieldset>
+
+                                                <select name="rpp_options[force_parent-<?php echo $user->user_login; ?>]" id="rpp_options[force_parent-<?php echo $user->user_login; ?>]">
+
+                                                    <option value="0" <?php selected('0', $options['force_parent-' . $user->user_login]); ?>>Disable</option>
+                                                    <option value="1" <?php selected('1', $options['force_parent-' . $user->user_login]); ?>>Enable</option>
+
+                                                </select>
+                                                
+                                            </fieldset>
+                                            
+                                        </td>
 	    							</tr>
     							
     							<?php $i++; endif; endforeach; ?>

@@ -152,21 +152,33 @@ class RestrictPageParents {
 		
 		global $current_user;
 		get_currentuserinfo();
-		
-		if ( 
-			isset($options[$slug . '-' . $current_user->user_login]) &&
-			$options[$slug . '-' . $current_user->user_login] == '1' ||
-			isset($options[$slug . '-' . $current_user->roles[0]]) &&
-			$options[$slug . '-' . $current_user->roles[0]] == '1'
-		) :
-		
-			return true;
-		
-		else :
-			
-			return false;
-		
-		endif;
+
+		if (
+				isset($options['override-' . $current_user->user_login]) &&
+				$options['override-' . $current_user->user_login] == '1'
+		) : // running the overridden options specific to this user
+
+			if (
+				isset($options[$slug . '-' . $current_user->user_login]) &&
+				$options[$slug . '-' . $current_user->user_login] == '1'
+			) :
+				return true;
+			else :
+				return false;
+			endif;
+
+		else : // running the role options
+
+			if (
+				isset($options[$slug . '-' . $current_user->roles[0]]) &&
+				$options[$slug . '-' . $current_user->roles[0]] == '1'
+			) :
+				return true;
+			else :
+				return false;
+			endif;
+
+		endif; // end override conditional
 		
 	}
 	
