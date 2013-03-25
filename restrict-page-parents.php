@@ -45,6 +45,7 @@ class RestrictPageParents {
 		add_action('admin_menu', array($this, 'create_options_page') );
 		add_action('admin_init', array($this, 'rpp_init') );
 		add_action( 'admin_enqueue_scripts', array($this, 'rpp_scripts') );
+		add_action( 'wp_print_scripts', array($this, 'modify_vars') );
 		
 		// filters
 		add_filter( 'plugin_action_links', array($this, 'plugin_action_links'), 10, 2 );
@@ -62,9 +63,7 @@ class RestrictPageParents {
 	public function rpp_scripts( $hook_suffix ) {
        				
 		if ($hook_suffix = 'post.php' && $this->get_permissions('force_parent'))
-			wp_enqueue_script( 'rpp_validate', plugin_dir_url( __FILE__ ) . 'js/validate.js', array( 'jquery' ), '1.0', true );
-
-		wp_enqueue_script( 'rpp_modify', plugin_dir_url( __FILE__ ) . 'js/modify.js.php', array( 'jquery' ), '1.0', true );			
+			wp_enqueue_script( 'rpp_validate', plugin_dir_url( __FILE__ ) . 'js/rpp.js', array( 'jquery' ), '1.0', true );
 		        
 	}
 	
@@ -91,6 +90,40 @@ class RestrictPageParents {
 	
 		return $links;
 	}
+
+	// modify quick editors
+
+	public function get_pages() { // get pages owned by the current user
+
+		global $current_user;
+		get_currentuserinfo();
+
+		$args = array(
+			'authors' => $current_user->ID
+		);
+		$pages = get_pages($args); // gets pages owned by the current user
+					
+		$include_pages = NULL;
+		foreach ($pages as $page) $include_pages .= $page->ID . ',';
+
+		return $include_pages;
+
+	}
+
+	public function modify_vars() { ?>
+
+		<script>
+			var rpp_pages = [ <?php echo $this->get_pages(); ?> ];
+			function getOption_removePages() {
+				return true;
+			}
+		</script>
+
+	<?php
+
+	}
+
+	// modifier main editor
 	
 	public function swap_boxes( $post_type ) { // swap the meta boxes
 		   

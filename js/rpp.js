@@ -5,6 +5,7 @@ function validate(event, $parent) {
 	if (val == '0' || val == '') {
 		error($parent);			
 		event.stopImmediatePropagation();
+		event.preventDefault();
 		return false;
 	} else {
 		return true;
@@ -14,6 +15,14 @@ function error($element) {
 	$element
 		.css('border','1px solid red')
 		.after('<br /><span style="color:red" class="rpp_alert">Please select a page parent.</span>');
+}
+
+function removePages() {
+
+		jQuery('.inline-editor #post_parent option').each(function (i) {
+	    	var val = parseInt($(this).attr('value'));
+	    	if (jQuery.inArray(val, rpp_pages) == '-1' && !val == 0) jQuery(this).remove();
+	    });
 }
 
 jQuery('#publish').click( function(event) {
@@ -30,3 +39,11 @@ jQuery('.inline-edit-save .save, #bulk_edit').click( function(event) {
 
 });
 
+jQuery(document).ready( function() { 
+	if (getOption_removePages()) {
+		jQuery('#post_parent option').each(function (i) {
+	    	var val = parseInt(jQuery(this).attr('value'));
+	    	if (jQuery.inArray(val, rpp_pages) == '-1' && val > 0) jQuery(this).remove();
+	    });
+	}
+});
