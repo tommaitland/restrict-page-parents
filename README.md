@@ -1,4 +1,4 @@
-# === Plugin Name ===
+# Plugin Name
 
 Contributors: (this should be a list of wordpress.org userid's)
 Donate link: http://www.tommaitland.net/about/
@@ -11,7 +11,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Restrict Page Parents restricts page parent options to those owned by the user, with the option of forcing a page parent. Permissions can be set by role and user.
 
-# == Description ==
+# Description
 
 Restrict Page Parents is a lightweight plugin to enhance the user permissions features of WordPress. It changes the option to set a parent page to show only pages owned by the current user. It can also force users to select a parent page before publishing or saving.
 
