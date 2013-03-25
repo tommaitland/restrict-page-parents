@@ -11,34 +11,33 @@ function validate(event, $parent) {
 		return true;
 	}
 }
+
 function error($element) {
 	$element
 		.css('border','1px solid red')
 		.after('<br /><span style="color:red" class="rpp_alert">Please select a page parent.</span>');
 }
 
-function removePages() {
+// parent validation
+if (getOption_forceParent()) {
 
-		jQuery('.inline-editor #post_parent option').each(function (i) {
-	    	var val = parseInt($(this).attr('value'));
-	    	if (jQuery.inArray(val, rpp_pages) == '-1' && !val == 0) jQuery(this).remove();
-	    });
+	jQuery('#publish').click( function(event) {
+		
+		var $parent = jQuery('#parent_id');
+		validate(event, $parent);
+		
+	});
+
+	jQuery('.inline-edit-save .save, #bulk_edit').click( function(event) {
+		
+		var $parent = jQuery('.inline-editor #post_parent');
+		validate(event, $parent);	
+
+	});
+
 }
 
-jQuery('#publish').click( function(event) {
-	
-	var $parent = jQuery('#parent_id');
-	validate(event, $parent);
-	
-});
-
-jQuery('.inline-edit-save .save, #bulk_edit').click( function(event) {
-	
-	var $parent = jQuery('.inline-editor #post_parent');
-	validate(event, $parent);	
-
-});
-
+// quick edit modifications
 jQuery(document).ready( function() { 
 	if (getOption_removePages()) {
 		jQuery('#post_parent option').each(function (i) {

@@ -90,7 +90,7 @@
     						<thead>
     							<tr>
     								<th>Override?</th>
-                                    <th class="row-title" width="25%">Role Name</th>
+                                    <th class="row-title" width="25%">Username</th>
     								<th>Page Parent Restrictions</th>
                                     <th>Force Page Parent</th>
     							</tr>

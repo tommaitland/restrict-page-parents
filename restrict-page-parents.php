@@ -110,13 +110,25 @@ class RestrictPageParents {
 
 	}
 
-	public function modify_vars() { ?>
+	public function modify_vars() { 
+
+	?>
 
 		<script>
 			var rpp_pages = [ <?php echo $this->get_pages(); ?> ];
+			
+			<?php if ($this->get_permissions('enable_restrictions')) : ?>
 			function getOption_removePages() {
 				return true;
 			}
+			<?php endif; ?>
+
+			<?php if ($this->get_permissions('force_parent')) : ?>
+			function getOption_forceParent() {
+				return true;
+			}
+			<?php endif; ?>
+
 		</script>
 
 	<?php
