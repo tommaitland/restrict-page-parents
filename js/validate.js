@@ -1,5 +1,15 @@
 // Check if page parent is set on edit screen. Return error message.
 
+function validate(event, $parent) {
+	var val = $parent.val();
+	if (val == '0' || val == '') {
+		error($parent);			
+		event.stopImmediatePropagation();
+		return false;
+	} else {
+		return true;
+	}
+}
 function error($element) {
 	$element
 		.css('border','1px solid red')
@@ -9,38 +19,14 @@ function error($element) {
 jQuery('#publish').click( function(event) {
 	
 	var $parent = jQuery('#parent_id');
-	
-	var val = $parent.val();
-		
-	if (val == '') {
-		
-		error($parent);
-		event.stopImmediatePropagation();
-			
-		return false;
-		
-	} else {
-		return true;
-	}	
+	validate(event, $parent);
 	
 });
 
-jQuery('.inline-edit-save .save').click( function(event) {
+jQuery('.inline-edit-save .save, #bulk_edit').click( function(event) {
 	
-	$parent_dropdown = jQuery('.inline-editor #post_parent');
-
-	var val = $parent_dropdown.val();
-		
-	if (val == '0') {
-		
-		error($parent_dropdown);			
-		event.stopImmediatePropagation();
-			
-		return false;
-		
-	} else {
-		return true;
-	}
+	var $parent = jQuery('.inline-editor #post_parent');
+	validate(event, $parent);	
 
 });
 
