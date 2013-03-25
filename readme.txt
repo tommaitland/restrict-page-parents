@@ -1,5 +1,5 @@
 === Plugin Name ===
-Contributors: (this should be a list of wordpress.org userid's)
+Contributors: tom.maitland
 Donate link: http://www.tommaitland.net/about/
 Tags: access, capability, editor, permission, role, security, user, parents, cms, restrictions
 Requires at least: 3.4.0
