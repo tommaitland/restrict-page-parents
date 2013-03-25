@@ -2,7 +2,7 @@
 
     <?php screen_icon(); ?>
     
-    <h2>Restrict Page Parents</h2>
+    <h2><?php _e('Restrict Page Parents', 'restrict-page-parents'); ?></h2>
     
     <form method="post" action="options.php">
     
@@ -19,14 +19,14 @@
     				
     				<div class="meta-box">
     					
-    					<h2>Role Permissions</h2>
+    					<h2><?php _e('Role Permissions', 'restrict-page-parents'); ?></h2>
     					
     					<table class="widefat">
     						<thead>
     							<tr>
-    								<th class="row-title" width="40%">Role Name</th>
-    								<th>Page Parent Restrictions</th>
-                                    <th>Force Page Parent</th>
+    								<th class="row-title" width="40%"><?php _e('Role Name', 'restrict-page-parents'); ?></th>
+    								<th><?php _e('Page Parent Restrictions', 'restrict-page-parents'); ?></th>
+                                    <th><?php _e('Force Page Parent', 'restrict-page-parents'); ?></th>
     							</tr>
     						</thead>
     						<tbody>
@@ -51,8 +51,8 @@
 
                                                 <select name="rpp_options[enable_restrictions-<?php echo strtolower($role['name']); ?>]" id="rpp_options[enable_restrictions-<?php echo strtolower($role['name']); ?>]">
 
-                                                    <option value="0" <?php selected('0', $options['enable_restrictions-' . strtolower($role['name'])]); ?>>Disable</option>
-                                                    <option value="1" <?php selected('1', $options['enable_restrictions-' . strtolower($role['name'])]); ?>>Enable</option>
+                                                    <option value="0" <?php selected('0', $options['enable_restrictions-' . strtolower($role['name'])]); ?>><?php _e('Disable', 'restrict-page-parents'); ?></option>
+                                                    <option value="1" <?php selected('1', $options['enable_restrictions-' . strtolower($role['name'])]); ?>><?php _e('Enable', 'restrict-page-parents'); ?></option>
 
                                                 </select>
 	    										
@@ -66,8 +66,8 @@
 
                                                 <select name="rpp_options[force_parent-<?php echo strtolower($role['name']); ?>]" id="rpp_options[force_parent-<?php echo strtolower($role['name']); ?>]">
 
-                                                    <option value="0" <?php selected('0', $options['force_parent-' . strtolower($role['name'])]); ?>>Disable</option>
-                                                    <option value="1" <?php selected('1', $options['force_parent-' . strtolower($role['name'])]); ?>>Enable</option>
+                                                    <option value="0" <?php selected('0', $options['force_parent-' . strtolower($role['name'])]); ?>><?php _e('Disable', 'restrict-page-parents'); ?></option>
+                                                    <option value="1" <?php selected('1', $options['force_parent-' . strtolower($role['name'])]); ?>><?php _e('Enable', 'restrict-page-parents'); ?></option>
 
                                                 </select>
                                                 
@@ -82,17 +82,17 @@
     						</tbody>
     					</table>
     					
-    					<h2>User Permissions</h2>
+    					<h2><?php _e('User Permissions', 'restrict-page-parents'); ?></h2>
     					
-    					<p>Permissions set for an individual user will override any role permissions set.</p>
+    					<p><?php _e('Permissions set for an individual user will override any role permissions set.', 'restrict-page-parents'); ?></p>
     					
     					<table class="widefat">
     						<thead>
     							<tr>
-    								<th>Override?</th>
-                                    <th class="row-title" width="25%">Username</th>
-    								<th>Page Parent Restrictions</th>
-                                    <th>Force Page Parent</th>
+    								<th><?php _e('Override?', 'restrict-page-parents'); ?></th>
+                                    <th class="row-title" width="25%"><?php _e('Username', 'restrict-page-parents'); ?></th>
+    								<th><?php _e('Page Parent Restrictions', 'restrict-page-parents'); ?></th>
+                                    <th><?php _e('Force Page Parent', 'restrict-page-parents'); ?></th>
     							</tr>
     						</thead>
     						<tbody>
@@ -122,8 +122,8 @@
 
                                                 <select name="rpp_options[enable_restrictions-<?php echo $user->user_login; ?>]" id="rpp_options[enable_restrictions-<?php echo $user->user_login; ?>]">
 
-                                                    <option value="0" <?php selected('0', $options['enable_restrictions-' . $user->user_login]); ?>>Disable</option>
-                                                    <option value="1" <?php selected('1', $options['enable_restrictions-' . $user->user_login]); ?>>Enable</option>
+                                                    <option value="0" <?php selected('0', $options['enable_restrictions-' . $user->user_login]); ?>><?php _e('Disable', 'restrict-page-parents'); ?></option>
+                                                    <option value="1" <?php selected('1', $options['enable_restrictions-' . $user->user_login]); ?>><?php _e('Enable', 'restrict-page-parents'); ?></option>
 
                                                 </select>
 	    										
@@ -136,8 +136,8 @@
 
                                                 <select name="rpp_options[force_parent-<?php echo $user->user_login; ?>]" id="rpp_options[force_parent-<?php echo $user->user_login; ?>]">
 
-                                                    <option value="0" <?php selected('0', $options['force_parent-' . $user->user_login]); ?>>Disable</option>
-                                                    <option value="1" <?php selected('1', $options['force_parent-' . $user->user_login]); ?>>Enable</option>
+                                                    <option value="0" <?php selected('0', $options['force_parent-' . $user->user_login]); ?>><?php _e('Disable', 'restrict-page-parents'); ?></option>
+                                                    <option value="1" <?php selected('1', $options['force_parent-' . $user->user_login]); ?>><?php _e('Enable', 'restrict-page-parents'); ?></option>
 
                                                 </select>
                                                 
@@ -181,7 +181,7 @@
     		
     	</div><!-- #poststuff -->
     	
-    	<input class="button-primary" type="submit" name="Example" value="<?php _e( 'Save Changes' ); ?>" />
+    	<input class="button-primary" type="submit" name="Example" value="<?php _e( 'Save Changes', 'restrict-page-parents' ); ?>" />
     
     </form>
 			

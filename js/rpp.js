@@ -1,6 +1,6 @@
 // Check if page parent is set on edit screen. Return error message.
 
-function validate(event, $parent) {
+function validate( event, $parent ) {
 	var val = $parent.val();
 	if (val == '0' || val == '') {
 		error($parent);			
@@ -15,7 +15,7 @@ function validate(event, $parent) {
 function error($element) {
 	$element
 		.css('border','1px solid red')
-		.after('<br /><span style="color:red" class="rpp_alert">Please select a page parent.</span>');
+		.after('<br /><span style="color:red" class="rpp_alert">' + objectL10n.error_message + '</span>');
 }
 
 // parent validation
@@ -39,10 +39,12 @@ if (getOption_forceParent()) {
 
 // quick edit modifications
 jQuery(document).ready( function() { 
+
 	if (getOption_removePages()) {
 		jQuery('#post_parent option').each(function (i) {
 	    	var val = parseInt(jQuery(this).attr('value'));
 	    	if (jQuery.inArray(val, rpp_pages) == '-1' && val > 0) jQuery(this).remove();
 	    });
 	}
+
 });

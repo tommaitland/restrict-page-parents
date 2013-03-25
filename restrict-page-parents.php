@@ -2,11 +2,11 @@
 
 /*
 	Plugin Name: Restrict Page Parents
-	Plugin URI: http://tommaitland.net/restrict-page-parents/
-	Description: Restricts the page parent options available to specified users and roles to only the pages they authored.
-	Version: 1.0
+	Plugin URI: http://www.tommaitland.net/restrict-page-parents/
+	Description: Restricts the page parent options available to specified users and roles to only the pages they own.
+	Version: 1.0.0
 	Author: Tom Maitland
-	Author URI: http://tommaitland.net/
+	Author URI: http://www.tommaitland.net/
 	License: GPL2
 
     Copyright 2013  THOMAS MAITLAND  (email : hello@tommaitland.net)
@@ -37,15 +37,14 @@ class RestrictPageParents {
 		// vars
 		$this->path = plugin_dir_path( __FILE__ );
 		$this->dir = plugin_dir_url( __FILE__ );
-		$this->version = '1.0';
-		$this->upgrade_version = '0.9'; // this is the latest version which requires an upgrade
 						
 		// actions
 		add_action( 'add_meta_boxes', array($this, 'swap_boxes') );
-		add_action('admin_menu', array($this, 'create_options_page') );
-		add_action('admin_init', array($this, 'rpp_init') );
+		add_action( 'admin_menu', array($this, 'create_options_page') );
+		add_action( 'admin_init', array($this, 'rpp_init') );
 		add_action( 'admin_enqueue_scripts', array($this, 'rpp_scripts') );
 		add_action( 'wp_print_scripts', array($this, 'modify_vars') );
+		add_action( 'plugins_loaded', array($this, 'language_settings') );
 		
 		// filters
 		add_filter( 'plugin_action_links', array($this, 'plugin_action_links'), 10, 2 );
@@ -53,6 +52,14 @@ class RestrictPageParents {
 		return true;
 		
 	}
+
+	/**
+	 * Plugin setup and configuration
+	 *
+	 * @package WordPress
+	 * @since 1.0.0
+	 *	 
+	 */
 	
 	public function rpp_init() {
 	
@@ -62,14 +69,31 @@ class RestrictPageParents {
 		
 	public function rpp_scripts( $hook_suffix ) {
        				
-		if ($hook_suffix = 'post.php' && $this->get_permissions('force_parent'))
+		if ( $hook_suffix = 'post.php' && $this->get_permissions('force_parent') )
 			wp_enqueue_script( 'rpp_validate', plugin_dir_url( __FILE__ ) . 'js/rpp.js', array( 'jquery' ), '1.0', true );
-		        
+		
+		wp_localize_script( 'rpp_validate', 'objectL10n', array(
+			'error_message' => __( 'Please select a page parent.', 'restrict-page-parents' ),
+		) );
+
 	}
+
+	public function language_settings() {
+		$plugin_dir = basename(dirname(__FILE__));
+		load_plugin_textdomain( 'restrict-page-parents', false, $plugin_dir );
+	}
+
+	/**
+	 * Registers the plugin options page
+	 *
+	 * @package WordPress
+	 * @since 1.0.0
+	 *	 
+	 */
 	
 	public function create_options_page() {
 				
-		add_options_page('Restrict Page Parents', 'Restrict Page Parents', 'manage_options', 'rpp', array($this, 'options_page') );
+		add_options_page(__('Restrict Page Parents','restrict-page-parents'), __('Restrict Page Parents','restrict-page-parents'), 'manage_options', 'rpp', array($this, 'options_page') );
 			
 	}
 	
@@ -83,15 +107,22 @@ class RestrictPageParents {
 	
 		if ( $file == plugin_basename( __FILE__ ) ) {
 			
-			$posk_links = '<a href="'.get_admin_url().'options-general.php?page=rpp">'.__('Settings').'</a>';
+			$posk_links = '<a href="' . get_admin_url() . 'options-general.php?page=rpp">' . __('Settings', 'restrict-page-parents') . '</a>';
 			array_unshift( $links, $posk_links ); // make settings link appear first
 		
 		}
 	
 		return $links;
+	
 	}
 
-	// modify quick editors
+	/**
+	 * Gets data for jQuery manipulation of the 'quick edit' forms.
+	 *
+	 * @package WordPress
+	 * @since 1.0.0
+	 *
+	 */
 
 	public function get_pages() { // get pages owned by the current user
 
@@ -101,10 +132,10 @@ class RestrictPageParents {
 		$args = array(
 			'authors' => $current_user->ID
 		);
-		$pages = get_pages($args); // gets pages owned by the current user
+		$pages = get_pages( $args ); // gets pages owned by the current user
 					
 		$include_pages = NULL;
-		foreach ($pages as $page) $include_pages .= $page->ID . ',';
+		foreach ( $pages as $page ) $include_pages .= $page->ID . ',';
 
 		return $include_pages;
 
@@ -115,6 +146,7 @@ class RestrictPageParents {
 	?>
 
 		<script>
+			
 			var rpp_pages = [ <?php echo $this->get_pages(); ?> ];
 			
 			<?php if ($this->get_permissions('enable_restrictions')) : ?>
@@ -135,7 +167,13 @@ class RestrictPageParents {
 
 	}
 
-	// modifier main editor
+	/**
+	 * Degregisters and reregisters the Page Attributes meta box
+	 *
+	 * @package WordPress
+	 * @since 1.0.0
+	 *
+	 */
 	
 	public function swap_boxes( $post_type ) { // swap the meta boxes
 		   
@@ -149,14 +187,22 @@ class RestrictPageParents {
 		    // add the new meta box
 		    add_meta_box(
 		        'rpp_pageparentdiv',
-		        'page' == $post_type ? __('Page Attributes') : __('Attributes'),
-		        array($this, 'page_attributes_meta_box'), 
+		        'page' == $post_type ? __('Page Attributes', 'restrict-page-parents') : __('Attributes', 'restrict-page-parents'),
+		         array($this, 'page_attributes_meta_box'), 
 		        'page', 
 		        'side', 
 		        'low'
 		    );
 		    
 	}
+
+	/**
+	 * Processes the plugin settings to create permissions to be used in plugin logic.
+	 *
+	 * @package WordPress
+	 * @since 1.0.0
+	 *	 
+	 */
 	
 	public function get_permissions($slug) {
 		
@@ -193,6 +239,14 @@ class RestrictPageParents {
 		endif; // end override conditional
 		
 	}
+
+	/**
+	 * Rebuilds the Page Attributes meta box
+	 *
+	 * @package WordPress
+	 * @since 1.0.0
+	 *	 
+	 */
 	
 	public function page_attributes_meta_box( $post ) { // replacement meta box
 	
@@ -206,27 +260,27 @@ class RestrictPageParents {
 		$args = array(
 			'child_of' => $post->ID,
 		);
-		$children = get_pages($args); // gets children pages of the current page to hide them from the dropdown
+		$children = get_pages( $args ); // gets children pages of the current page to hide them from the dropdown
 		
 		
-		foreach ($children as $child) $children_pages[] = $child->ID;
+		foreach ( $children as $child ) $children_pages[] = $child->ID;
 		$children_pages[] = $post->ID;
 		
 		
 		$args = array(
 			'authors' => $current_user->ID
 		);
-		$pages = get_pages($args); // gets pages owned by the current user
+		$pages = get_pages( $args ); // gets pages owned by the current user
 					
 		$include_pages = NULL;
-		foreach ($pages as $page) if (!in_array($page->ID, $children_pages)) $include_pages .= $page->ID . ','; // creates a string of page IDs to show
+		foreach ( $pages as $page ) if ( !in_array( $page->ID, $children_pages ) ) $include_pages .= $page->ID . ','; // creates a string of page IDs to show
 	
 			
-		$post_type_object = get_post_type_object($post->post_type);
+		$post_type_object = get_post_type_object( $post->post_type );
 		
 		if ( $post_type_object->hierarchical ) {
 			
-			$dropdown_args = array(
+			$dropdown_args = array (
 				'post_type'        => $post->post_type,
 				'selected'         => $post->post_parent,
 				'name'             => 'parent_id',
@@ -236,12 +290,12 @@ class RestrictPageParents {
 				'echo'             => 0,
 			);
 			
-			if ($this->get_permissions('enable_restrictions')) {
+			if ( $this->get_permissions('enable_restrictions') ) {
 				$dropdown_args['include']  = $include_pages;
 				unset($dropdown_args['exclude_tree']);
 			}
 			
-			if ($this->get_permissions('force_parent')) {
+			if ( $this->get_permissions('force_parent') ) {
 				$dropdown_args['show_option_none']  = __('(select parent)');
 			}
 	
@@ -285,9 +339,6 @@ class RestrictPageParents {
 	<?php 
 	
 	} // end replacement meta box function
-	
-	
-	
 	
 
 } // end class
