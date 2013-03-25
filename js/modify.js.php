@@ -1,6 +1,2 @@
-<?php
-
-Header("content-type: application/x-javascript");
-
-?>
+<?php Header("content-type: application/x-javascript"); ?>
 
