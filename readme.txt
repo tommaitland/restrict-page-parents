@@ -8,7 +8,7 @@ Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Restrict Page Parents restricts page parent options to those owned by the user, with the option of forcing a page parent. Permissions can be set by role and user.
+Restrict Page Parents restricts page parent options to those owned by the user, with the option of forcing a page parent.
 
 == Description ==
 
