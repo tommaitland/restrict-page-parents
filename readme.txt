@@ -46,7 +46,10 @@ Send me an email with any questions, or post in the plugin forum and I'll try an
 
 == Changelog ==
 
-= 1.0 =
+= 1.0.1 =
+* Bugfixes related to rare events when the author only owns a single tree of pages.
+
+= 1.0.0 =
 * First release of the plugin
 * Localisation ready
 * See plugin description for features
