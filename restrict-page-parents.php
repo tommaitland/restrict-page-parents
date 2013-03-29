@@ -241,6 +241,24 @@ class RestrictPageParents {
 	}
 
 	/**
+	 * Works out whether or not to show the parent menu
+	 *
+	 * @package WordPress
+	 * @since 1.0.1
+	 *	 
+	 */
+
+	public function get_visibility($pages, $include_pages, $postID) {
+		if (!empty($pages) && !$include_pages == $postID) {
+			return true;
+		} elseif (!empty($pages) && !$this->get_permissions('force_parent')) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
 	 * Rebuilds the Page Attributes meta box
 	 *
 	 * @package WordPress
@@ -274,7 +292,7 @@ class RestrictPageParents {
 					
 		$include_pages = NULL;
 		foreach ( $pages as $page ) if ( !in_array( $page->ID, $children_pages ) ) $include_pages .= $page->ID . ','; // creates a string of page IDs to show
-	
+		if ($include_pages == NULL) $include_pages = $post->ID;
 			
 		$post_type_object = get_post_type_object( $post->post_type );
 		
@@ -302,7 +320,7 @@ class RestrictPageParents {
 			$dropdown_args = apply_filters( 'page_attributes_dropdown_pages_args', $dropdown_args, $post );
 			$pages = wp_dropdown_pages( $dropdown_args );
 			
-			if ( ! empty($pages) ) {
+			if ($this->get_visibility($pages, $include_pages, $post->ID)) {
 	?>
 	
 		<p><strong><?php _e('Parent') ?></strong></p>
