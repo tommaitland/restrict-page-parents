@@ -4,7 +4,7 @@ Donate link: http://www.tommaitland.net/about/
 Tags: access, capability, editor, permission, role, security, user, parents, cms, restrictions
 Requires at least: 3.4.0
 Tested up to: 3.5.1
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -53,5 +53,8 @@ Send me an email with any questions, or post in the plugin forum and I'll try an
 
 == Upgrade Notice ==
 
-= 1.0 =
+= 1.0.1 =
+Bugfixes related to rare events when the author only owns a single tree of pages.
+
+= 1.0.0 =
 Initial release of the plugin, upgrade alpha/beta versions immediately.
