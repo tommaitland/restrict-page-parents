@@ -4,7 +4,7 @@
 	Plugin Name: Restrict Page Parents
 	Plugin URI: http://www.tommaitland.net/restrict-page-parents/
 	Description: Restricts the page parent options available to specified users and roles to only the pages they own.
-	Version: 1.0.1
+	Version: 1.0.4
 	Author: Tom Maitland
 	Author URI: http://www.tommaitland.net/
 	License: GPL2
@@ -248,14 +248,26 @@ class RestrictPageParents {
 	 *	 
 	 */
 
-	public function get_visibility($pages, $include_pages, $postID) {
-		if (!empty($pages) && !$include_pages == $postID) {
+	public function get_visibility($include_pages) {
+
+		if ($include_pages) {
 			return true;
-		} elseif (!empty($pages) && !$this->get_permissions('force_parent')) {
+		} elseif (!$this->get_permissions('force_parent')) {
+			return false;
+		} else {
+			return false;
+		}
+
+	}
+
+	public function stop_publish($include_pages) {
+
+		if ($include_pages == NULL && $this->get_permissions('force_parent')) {
 			return true;
 		} else {
 			return false;
 		}
+
 	}
 
 	/**
@@ -286,14 +298,15 @@ class RestrictPageParents {
 		
 		
 		$args = array(
-			'authors' => $current_user->ID
+			'authors' => $current_user->ID,
+			'hierarchical' => 0
 		);
-		$pages = get_pages( $args ); // gets pages owned by the current user
+		$owned = get_pages( $args ); // gets pages owned by the current user
 					
 		$include_pages = NULL;
-		foreach ( $pages as $page ) if ( !in_array( $page->ID, $children_pages ) ) $include_pages .= $page->ID . ','; // creates a string of page IDs to show
-		if ($include_pages == NULL) $include_pages = $post->ID;
-			
+		foreach ( $owned as $page ) if ( !in_array( $page->ID, $children_pages ) ) $include_pages .= $page->ID . ','; // creates a string of page IDs to show	
+		if ($post->post_parent) $include_pages .= $post->post_parent;
+
 		$post_type_object = get_post_type_object( $post->post_type );
 		
 		if ( $post_type_object->hierarchical ) {
@@ -320,7 +333,7 @@ class RestrictPageParents {
 			$dropdown_args = apply_filters( 'page_attributes_dropdown_pages_args', $dropdown_args, $post );
 			$pages = wp_dropdown_pages( $dropdown_args );
 			
-			if ($this->get_visibility($pages, $include_pages, $post->ID)) {
+			if ($this->get_visibility($include_pages)) {
 	?>
 	
 		<p><strong><?php _e('Parent') ?></strong></p>
@@ -332,7 +345,21 @@ class RestrictPageParents {
 	
 			} // end empty pages check
 		} // end hierarchical check.
+
+		if ($this->stop_publish($include_pages)) {
+	?>
+
+		<p><strong><?php _e('Parent') ?></strong></p>
+		<label class="screen-reader-text" for="parent_id"><?php _e('Parent') ?></label>
+
+		<select name="parent_id" id="parent_id">
+			<option value="0"><?php _e('(no pages available)', 'restrict-page-parents'); ?></option>
+		</select>
+
+	<?php
 		
+		} // end stop publish mask
+
 		if ( 'page' == $post->post_type && 0 != count( get_page_templates() ) ) {
 		
 			$template = !empty($post->page_template) ? $post->page_template : false;
