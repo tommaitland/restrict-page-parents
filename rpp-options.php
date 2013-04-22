@@ -150,6 +150,52 @@
     							
     						</tbody>
     					</table>
+
+                        <h2><?php _e('Post Types', 'restrict-page-parents'); ?></h2>
+                        
+                        <p><?php _e('Select the post types to enable restrictions for. If none are set, it will default to all.', 'restrict-page-parents'); ?></p>
+                        
+                        <table class="widefat">
+                            <thead>
+                                <tr>
+                                    <th class="row-title"><?php _e('Post Type', 'restrict-page-parents'); ?></th>
+                                    <th class="row-title" width="25%"><?php _e('Enable?', 'restrict-page-parents'); ?></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                                            
+                                <?php 
+                                    // get all available users
+                                    
+                                    $post_types=get_post_types();
+                                                                                                                                                                            
+                                    $i = 0;
+                                    foreach ($post_types as $post_type) :
+
+                                        if (is_post_type_hierarchical($post_type)) :
+
+                                        
+                                ?>
+                            
+                                    <tr <?php if ($i%2) echo 'class="alt"'; ?>>
+                                        
+                                        <td class="row-title" width="30%">
+                                            <?php echo $post_type; ?>
+                                        </td>
+                                        <td width="70%">
+                                            <input name="rpp_options[type-<?php echo $post_type; ?>]"
+                                                type="checkbox"
+                                                value="1"
+                                                <?php if (isset($options['type-' . $post_type])) { checked('1', $options['type-' . $post_type]); } ?>
+                                            />
+                                        </td>
+                                        
+                                    </tr>
+                                
+                                <?php $i++; endif; endforeach; ?>
+                                
+                            </tbody>
+                        </table>
     					
     				</div><!-- .meta-box -->
     				
@@ -181,7 +227,8 @@
     		
     	</div><!-- #poststuff -->
     	
-    	<input class="button-primary" type="submit" name="Example" value="<?php _e( 'Save Changes', 'restrict-page-parents' ); ?>" />
+    	<br />
+        <input class="button-primary" type="submit" name="Example" value="<?php _e( 'Save Changes', 'restrict-page-parents' ); ?>" />
     
     </form>
 			

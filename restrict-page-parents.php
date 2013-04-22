@@ -4,7 +4,7 @@
 	Plugin Name: Restrict Page Parents
 	Plugin URI: http://www.tommaitland.net/restrict-page-parents/
 	Description: Restricts the page parent options available to specified users and roles to only the pages they own.
-	Version: 1.0.4
+	Version: 1.1.0
 	Author: Tom Maitland
 	Author URI: http://www.tommaitland.net/
 	License: GPL2
@@ -197,15 +197,41 @@ class RestrictPageParents {
 	}
 
 	/**
-	 * Processes the plugin settings to create permissions to be used in plugin logic.
+	 * Checks to see if post_type level control is enabled
 	 *
 	 * @package WordPress
-	 * @since 1.0.0
+	 * @since 1.1.0
 	 *	 
 	 */
-	
-	public function get_permissions($slug) {
-		
+
+	public function post_type_restrictions_on() {
+
+		$options = get_option('rpp_options');
+		$post_types=get_post_types();
+                                                                                                                                                                            
+        $i = 0;
+
+        foreach ($post_types as $post_type) : 
+        	
+        	if ($options['type-' . $post_type] == '1')
+        		return true;
+
+        endforeach;
+
+        return false;
+
+	}
+
+	/**
+	 * Runs the standard permission check
+	 *
+	 * @package WordPress
+	 * @since 1.1.0
+	 *	 
+	 */
+
+	public function check_permissions($slug) {
+
 		$options = get_option('rpp_options');
 		
 		global $current_user;
@@ -237,6 +263,47 @@ class RestrictPageParents {
 			endif;
 
 		endif; // end override conditional
+
+	}
+
+	/**
+	 * Processes the plugin settings to create permissions to be used in plugin logic.
+	 *
+	 * @package WordPress
+	 * @since 1.0.0
+	 *	 
+	 */
+	
+	public function get_permissions($slug) {
+		
+		$options = get_option('rpp_options');
+
+		
+		if ( $this->post_type_restrictions_on() ) :
+
+			if ( $options['type-' . get_post_type()] == '1' ) :
+				
+				if( $this->check_permissions($slug) ) :
+					return true;
+				else :
+					return false;
+				endif;
+
+			else :
+
+				return false;
+
+			endif;
+
+		else :
+
+			if ( $this->check_permissions($slug) ) :
+				return true;
+			else :
+				return false;
+			endif;
+
+		endif;
 		
 	}
 

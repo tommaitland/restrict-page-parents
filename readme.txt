@@ -4,7 +4,7 @@ Donate link: http://www.tommaitland.net/about/
 Tags: access, capability, editor, permission, role, security, user, parents, cms, restrictions
 Requires at least: 3.4.0
 Tested up to: 3.5.1
-Stable tag: 1.0.4
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,11 +12,11 @@ Restrict Page Parents restricts page parent options to those owned by the user, 
 
 == Description ==
 
-Restrict Page Parents is a lightweight plugin to enhance the user permissions features of WordPress. It changes the option to set a parent page to show only pages owned by the current user. It can also force users to select a parent page before publishing or saving.
+Restrict Page Parents is a lightweight plugin to enhance the user permissions features of WordPress. It changes the option to set a page parent to only show pages owned by the current user. It can also be configured to force users to select a parent page before they're able to publish or save.
 
-The plugin prevents editor users from adding their own pages under sections of the WordPress website they do not own or manage. Editors can now be confined to their own section of the website, making your WordPress website much more secure.
+Restrict Page Parents prevents users from adding their own pages under sections of the site they do not own or are able to manage. Users can be confined to their own section of the website, making your site permissions much more secure.
 
-You can set the permissions that apply to each role, or specify them on a user-by-user basis from the plugin options page.
+Permissions can be configured for each user role, each individual user and turned on/off based on post types.
 
 You can find out more about the plugin [here](http://www.tommaitland.net/restrict-page-parents) or on the [Github project page](https://github.com/tommaitland/rpp).
 
@@ -37,7 +37,7 @@ Yes, a user can have different restrictions to those set for their role. This is
 
 = Do you provide support? =
 
-Send me an email with any questions, or post in the plugin forum and I'll try and get back to you, but can't promise anything.
+Send me an email with any questions, or post in the plugin forum and I'll do my best to get back to you.
 
 == Screenshots ==
 
@@ -45,6 +45,9 @@ Send me an email with any questions, or post in the plugin forum and I'll try an
 2. Error that appears when a parent page is required.
 
 == Changelog ==
+
+= 1.1.0 =
+* New feature: Parent restrictions can be turned on or off based on post types for more granular control.
 
 = 1.0.4 =
 * Bugfixes
@@ -64,6 +67,9 @@ Send me an email with any questions, or post in the plugin forum and I'll try an
 * See plugin description for features
 
 == Upgrade Notice ==
+
+= 1.1.0 =
+New feature: You can now turn on/off parent restrictions for specific post types.
 
 = 1.0.4 =
 Bugfixes
