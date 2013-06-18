@@ -4,7 +4,7 @@
 	Plugin Name: Restrict Page Parents
 	Plugin URI: http://www.tommaitland.net/restrict-page-parents/
 	Description: Restricts the page parent options available to specified users and roles to only the pages they own.
-	Version: 1.1.0
+	Version: 1.1.1
 	Author: Tom Maitland
 	Author URI: http://www.tommaitland.net/
 	License: GPL2
@@ -317,7 +317,7 @@ class RestrictPageParents {
 
 	public function get_visibility($include_pages) {
 
-		if ($include_pages) {
+		if ($include_pages && $this->get_permissions('enable_restrictions') || !$this->get_permissions('enable_restrictions')) {
 			return true;
 		} elseif (!$this->get_permissions('force_parent')) {
 			return false;
